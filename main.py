@@ -25,6 +25,6 @@ def main():
 
         for day_idx, day in enumerate(week):
             penalties = checkschedule.penalties_day(day, day_idx);
-            print("Penalties", penalties)
+            print("Penalties", penalties);
 
 main()

@@ -1,6 +1,6 @@
-First|Last|Charge|DaysOn|RO|Seniority
-John|Rinehart|Yes|0,1|1,2|1
-Jeremy|Quigley|Yes|1||2
+FirstLast|Charge|DaysOn|RO|Seniority
+A|B|Yes|0,1|1,2|1
+C|D|Yes|1||2
 E|F|No|2||3
 G|H|Yes|3||4
 I|J|No|4||5
