@@ -1,4 +1,4 @@
-import csv, nurse, genschedule, checkschedule, constraints, debug
+import csv, staff, genschedule, checkschedule, constraints, debug
 
 DEBUG = True;
 
@@ -9,7 +9,10 @@ def main():
         next(reader) # skip the header
         # make the array of Nurse objects
         for l in reader:
-            nurses.append(nurse.Nurse(l[0],l[1],l[2],l[3],l[4],l[5]));
+            # Format: 0) First, 1) Last, 2) Seniority, 3) Charge, 4) Vent, 5) RequestedOn,
+            # 6) RequestedOff, 7) RequestedOffSchool, 8) Vacation, 9) Education,
+            # 10) Bonus
+            nurses.append(staff.Nurse(l[0],l[1],l[2],l[3],l[4],l[5],l[6],l[7],l[8],l[9],l[10]));
 
         print("\nMaking schedule.\n")
 

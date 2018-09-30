@@ -1,4 +1,4 @@
-import random, constraints, nurse, debug
+import random, constraints
 """ genweek(ns) accepts arguments:
 ns: a list of Nurse objects
 
@@ -21,7 +21,7 @@ def prepopulate(ns, week):
     while day_idx < 7:
         # Add nurse to day if already scheduled
         for n in ns:
-            if day_idx in n.daysOn:
+            if day_idx in n.daysScheduled:
                 week[day_idx].append(n);
         # print(week[day]); # debug
         day_idx += 1; # increment the day
