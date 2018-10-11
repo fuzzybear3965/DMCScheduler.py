@@ -20,12 +20,10 @@ class Staff(abc.ABC):
         self.daysEducation = csv_list_to_python_list(daysEducation);
         self.daysBonus = csv_list_to_python_list(daysBonus);
 
-        print("Education days: {0}".format(self.daysEducation))
-
         # check to see if any days are defined in a conflicting way and throw an
         # error if any of the days overlap
-        if common_elements([self.daysRequestedOn, self.daysRequestedOff,
-            self.daysRequsetedOffSchool, self.daysVacation,
+        if has_common_elements([self.daysRequestedOn, self.daysRequestedOff,
+            self.daysRequestedOffSchool, self.daysVacation,
             self.daysEducation]):
             raise ValueError("Days not defined in unique ways for {0} {1}.".format(self.first, self.last))
         else:
@@ -33,7 +31,7 @@ class Staff(abc.ABC):
                 self.daysRequestedOffSchool, self.daysVacation, self.daysEducation))
 
         # ensure that bonus days are requestedOn days
-        if len(list(set().intersection(self.daysBonus,self.daysRequestedOn))) != len(self.daysBonus):
+        if len(list(set(self.daysBonus).intersection(self.daysRequestedOn))) != len(self.daysBonus):
             raise ValueError("Not all bonus days were on a RequestedOn day for nurse {0} {1}".format(self.first, self.last))
 
         # made it here; increment ID
@@ -66,6 +64,18 @@ class Nurse(Staff):
         self.isCharge = True if isCharge.lower() == 'yes' else False;
         self.isVent = True if isCharge.lower() == 'yes' else False;
 
+    def __str__(self):
+        res = 'Name: {0} {1}\n'.format(self.first, self.last);
+        res += 'Charge: {0}\n'.format('Yes' if self.isCharge else 'No')
+        res += 'Vent: {0}\n'.format('Yes' if self.isVent else 'No')
+        res += 'Days Requested On: ' + ','.join(str(e) for e in self.daysRequestedOn) + '\n'
+        res += 'Days Requested Off: ' + ','.join(str(e) for e in self.daysRequestedOff) + '\n'
+        res += 'Days Requested Off School: ' + ','.join(str(e) for e in self.daysRequestedOffSchool) + '\n'
+        res += 'Vacation Days: ' + ','.join(str(e) for e in self.daysVacation) + '\n'
+        res += 'Education Days: ' + ','.join(str(e) for e in self.daysEducation) + '\n'
+        res += 'Bonus Days: ' + ','.join(str(e) for e in self.daysBonus) + '\n'
+        return res
+
 class CNA(Staff):
     def __init__(self, fname, lname, seniority, daysRequestedOn,
             daysRequestedOff, daysRequestedOffSchool, daysVacation,
@@ -76,10 +86,12 @@ class CNA(Staff):
 def csv_list_to_python_list(CSVString):
     return list(map(lambda x: int(x), CSVString.split(','))) if CSVString != '' else []
 
-def common_elements(lists):
+# has_common_elements accepts a list of lists as an argument. The return is a
+# boolean indicating whether any of the lists share any common elements.
+def has_common_elements(lists):
     for i in range(len(lists)):
-        for j in range(idx+1, len(lists)):
-            common_elements = list(set(lists[i]).intersection(lists[j]))
-            if common_elements:
+        for j in range(i+1, len(lists)):
+            has_common_elements = list(set(lists[i]).intersection(lists[j]))
+            if has_common_elements:
                     return True
     return False
