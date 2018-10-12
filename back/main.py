@@ -1,4 +1,4 @@
-import csv, staff, genschedule, checkschedule, constraints, debug
+import csv, staff, schedule, constraints, debug
 
 DEBUG = True;
 
@@ -16,11 +16,12 @@ def main():
 
         print("\nMaking schedule.\n")
 
-        schedule = genschedule.genschedule(nurses);
+        s = schedule.Schedule(nurses);
+        s.gen_schedule();
 
         print("Done making schedule. Printing.\n")
 
-        print(schedule)
+        print('\n\n'.join(str(x) for x in s[0:3]), sep='\n')
 
         # debug.print_week(week, nurses) if DEBUG == True else None;
 

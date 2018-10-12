@@ -11,7 +11,7 @@ class Staff(abc.ABC):
 
         self.first = fname;
         self.last = lname;
-        self.seniority = seniority;
+        self.seniority = int(seniority);
 
         self.daysRequestedOn = csv_list_to_python_list(daysRequestedOn);
         self.daysRequestedOff = csv_list_to_python_list(daysRequestedOff);
@@ -74,6 +74,7 @@ class Nurse(Staff):
         res += 'Vacation Days: ' + ','.join(str(e) for e in self.daysVacation) + '\n'
         res += 'Education Days: ' + ','.join(str(e) for e in self.daysEducation) + '\n'
         res += 'Bonus Days: ' + ','.join(str(e) for e in self.daysBonus) + '\n'
+        res += 'Seniority: ' + str(self.seniority) + '\n'
         return res
 
 class CNA(Staff):

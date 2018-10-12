@@ -1,27 +1,23 @@
-class Schedule:
-    def __init__(self):
-        self.weeks = []; # array of week objects
-
-    def __str__(self):
-        res = '';
-        for w in self.weeks:
-            res += str(w);
-        return res
-
 class Day:
     def __init__(self):
         self.nurses = [];  # array of Nurse objects
         self.cnas = []; # array of CNAs
 
+    def __str__(self):
+        res = '';
+        for n in self.nurses:
+            res += ('{0} {1} (sen: {2})\n '.format(n.first, n.last, str(n.seniority)))
+        return res
+
 class Week:
     def __init__(self, ns):
-        self.allnurses = ns; # array of nurses
         self.days = [Day() for i in range(7)]; # array of day objects
+        self._nurses = ns;
 
     def __str__(self):
         res = '';
         longest_name = '';
-        for n in self.allnurses:
+        for n in self._nurses:
                 name = n.first+' '+n.last
                 if len(name)>len(longest_name):
                     longest_name = name;
@@ -36,7 +32,7 @@ class Week:
         res += 7*cell_width*'-';
         res += '\n';
         # Print days for nurse 1 through n
-        for n in self.allnurses:
+        for n in self._nurses:
             cnt = 0; # number of days working
             for day in self.days:
                 if n in day.nurses:
@@ -54,3 +50,6 @@ class Week:
             res += 2*' '+'{0:<{width}}'.format(len(day.nurses), width=cell_width-2);
         res += '\n';
         return res
+
+    def __repr__(self):
+        return str(self);
