@@ -21,7 +21,7 @@ def main():
 
         print("Done making schedule. Printing.\n")
 
-        print('\n\n'.join(str(x) for x in s[0:3]), sep='\n')
+        print(s)
 
         # debug.print_week(week, nurses) if DEBUG == True else None;
 

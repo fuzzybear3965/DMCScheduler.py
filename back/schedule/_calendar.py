@@ -9,6 +9,9 @@ class Day:
             res += ('{0} {1} (sen: {2})\n '.format(n.first, n.last, str(n.seniority)))
         return res
 
+    def __len__(self):
+        return len(self.nurses);
+
 class Week:
     def __init__(self, ns):
         self.days = [Day() for i in range(7)]; # array of day objects
