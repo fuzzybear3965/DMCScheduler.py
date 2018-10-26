@@ -3,50 +3,49 @@
 if (window.File && window.FileReader && window.FileList && window.Blob) {
     // Great success! All the File APIs are supported.
     function handleFileSelect(evt) {
-        var files = evt.target.files; // FileList object
+        var file = evt.target.files[0]; // FileList object
+        console.log(evt.target)
 
         // files is a FileList of File objects. List some properties.
-        var output = [];
-        for (var i = 0, f; f = files[i]; i++) {
-            var reader = new FileReader();
-            reader.onload = (function(file) {
-                return function(e) {
-                    Papa.parse(file, {
-                        delimiter: "|",
-                        header: false,
-                        complete: addStaffToDOM,
-                    })
-                }
-            })(f);
+        var reader = new FileReader();
+        reader.onload = (function(f) {
+            return function(e) {
+                Papa.parse(f, {
+                    delimiter: "|",
+                    header: true,
+                    complete: addStaffToDOM,
+                })
+            }
+        })(file)
 
-            reader.readAsText(f);
+        reader.readAsText(file);
 
-            output.push(
-                '<li><strong>',
-                escape(f.name),
-                '</strong> </li>');
+        var output = (
+            '<li><strong>', escape(file.name), '</strong> </li>'
+        );
 
-            document.getElementById('list').innerHTML = '<ul>' + output.join('') + '</ul>';
-        }
+        document.getElementById('list').innerHTML = '<ul>' + output + '</ul>';
     }
 
-    document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    document.getElementById('file').addEventListener('change', handleFileSelect, false);
 
     function addStaffToDOM(results, file) {
+        ws.send(JSON.stringify(results));
+
         var body = document.body;
+        var header = results.meta.fields;
         for (row of results.data) {
             var staffEl = document.createElement('p');
-            for (col of row) {
+            for (item of header) {
                 var cell = document.createElement('span');
-                cell.classList.add("cell");
-                cell.innerText = col;
+                cell.classList.add("col-" + header.indexOf(item));
+                cell.innerText = row[item];
                 staffEl.appendChild(cell);
+                body.appendChild(staffEl);
             }
-            body.appendChild(staffEl);
         }
     }
 
 } else {
     alert('The File APIs are not fully supported in this browser.');
 }
-

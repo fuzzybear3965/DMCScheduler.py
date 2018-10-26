@@ -5,12 +5,18 @@
         <meta charset="UTF-8">
     </head>
     <body>
+        <p>
+            <input type="file" id="file" name="files"/>
+            <output id="list"></output>
+        </p>
+        <p>
+            <button id="send">Send</button>
+        </p>
+        <script src="js/ws.js"></script>
         <script
               type="text/javascript"
-              src="https://rawgit.com/mholt/PapaParse/master/papaparse.min.js"
-                  ></script>
-        <input type="file" id="files" name="files[]" multiple />
-        <output id="list"></output>
+              src="https://rawgit.com/mholt/PapaParse/master/papaparse.min.js">
+        </script>
         <script src="js/csvread.js"></script>
     </body>
 </html>

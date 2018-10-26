@@ -5,10 +5,9 @@ class Staff(abc.ABC):
     __id = 0;
 
     @abc.abstractmethod
-    def __init__(self, fname, lname, seniority, daysRequestedOn,
-            daysRequestedOff, daysRequestedOffSchool, daysVacation,
-            daysEducation, daysBonus):
+    def __init__(self, header, row):
 
+        self.__dict__ = dict(zip(header, row));
         self.first = fname;
         self.last = lname;
         self.seniority = int(seniority);
@@ -53,17 +52,6 @@ class Staff(abc.ABC):
         o = other.first.lower() + other.last.lower()
         return s < o
 
-# n.id is an incremented value for each Nurse object that is instantiated
-class Nurse(Staff):
-    def __init__(self, fname, lname, seniority, isCharge, isVent,
-            daysRequestedOn, daysRequestedOff, daysRequestedOffSchool,
-            daysVacation, daysEducation, daysBonus):
-        Staff.__init__(self, fname, lname, seniority, daysRequestedOn,
-                daysRequestedOff, daysRequestedOffSchool, daysVacation,
-                daysEducation, daysBonus)
-        self.isCharge = True if isCharge.lower() == 'yes' else False;
-        self.isVent = True if isCharge.lower() == 'yes' else False;
-
     def __str__(self):
         res = 'Name: {0} {1}\n'.format(self.first, self.last);
         res += 'Charge: {0}\n'.format('Yes' if self.isCharge else 'No')
@@ -76,13 +64,6 @@ class Nurse(Staff):
         res += 'Bonus Days: ' + ','.join(str(e) for e in self.daysBonus) + '\n'
         res += 'Seniority: ' + str(self.seniority) + '\n'
         return res
-
-class CNA(Staff):
-    def __init__(self, fname, lname, seniority, daysRequestedOn,
-            daysRequestedOff, daysRequestedOffSchool, daysVacation,
-            daysEducation, daysBonus):
-        Staff.__init__(self, fname, lname, seniority, daysRequestedOn,
-                daysRequestedOff, ddaysRequestedOffSchool, daysVacation)
 
 def csv_list_to_python_list(CSVString):
     return list(map(lambda x: int(x), CSVString.split(','))) if CSVString != '' else []
