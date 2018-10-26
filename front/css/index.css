@@ -1,0 +1,76 @@
+p {
+    margin: 0px 0px 1px 0px;
+    padding: 0px 0px 4px 0px;
+}
+
+span {
+    border: solid;
+}
+
+[class^="col-"],[class^="header-col-"] {
+    display: inline-block;
+    padding: 0px 10px 0px 10px;
+}
+
+[class^="header-col-"] {
+    text-align: center;
+
+}
+
+[class^="col-"]:nth-child(odd), [class^="header-col-"]:nth-child(odd) {
+    background-color: #ddd;
+    color: black;
+}
+
+[class^="col-"]:nth-child(even) {
+    background-color: white;
+}
+
+.col-0, .col-1, .header-col-0, .header-col-1 {
+    width: 100px;
+    margin: 0px 2px;
+}
+
+.col-2, .header-col-2 {
+    width: 70px;
+}
+
+.col-3, .header-col-3 {
+    width: 50px;
+}
+
+.col-4, .header-col-4 {
+    width: 30px;
+}
+
+.col-5 , .header-col-5 {
+    width: 250px;
+}
+
+.col-6, .header-col-6 {
+    width: 200px;
+}
+
+.col-7, .header-col-7 {
+    width: 200px;
+}
+
+.col-8, .header-col-8 {
+    width: 300px;
+}
+
+.col-9, .header-col-9 {
+    width: 100px;
+}
+
+.col-10, .header-col-10 {
+    width: 100px;
+}
+
+.col-11, .header-col-11 {
+    width: 50px;
+}
+
+#table {
+    margin-bottom: 20px;
+}

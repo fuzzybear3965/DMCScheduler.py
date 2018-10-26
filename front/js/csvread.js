@@ -4,7 +4,6 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     // Great success! All the File APIs are supported.
     function handleFileSelect(evt) {
         var file = evt.target.files[0]; // FileList object
-        console.log(evt.target)
 
         // files is a FileList of File objects. List some properties.
         var reader = new FileReader();
@@ -14,6 +13,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                     delimiter: "|",
                     header: true,
                     complete: addStaffToDOM,
+                    skipEmptyLines: true,
                 })
             }
         })(file)
@@ -32,16 +32,25 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
     function addStaffToDOM(results, file) {
         ws.send(JSON.stringify(results));
 
-        var body = document.body;
+        var table = document.getElementById('table');
         var header = results.meta.fields;
+        var headerEl = document.createElement('p');
+        for (item of header) {
+            var cell = document.createElement('span');
+            cell.classList.add("header-col-" + header.indexOf(item));
+            cell.innerText = item;
+            headerEl.appendChild(cell);
+            table.appendChild(headerEl);
+        }
         for (row of results.data) {
             var staffEl = document.createElement('p');
             for (item of header) {
                 var cell = document.createElement('span');
+                cell.setAttribute("contenteditable", 'true');
                 cell.classList.add("col-" + header.indexOf(item));
                 cell.innerText = row[item];
                 staffEl.appendChild(cell);
-                body.appendChild(staffEl);
+                table.appendChild(staffEl);
             }
         }
     }
