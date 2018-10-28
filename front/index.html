@@ -3,7 +3,10 @@
     <head>
         <title>DMC Scheduling Application</title>
         <meta charset="UTF-8">
+        <!--<link href="dist/css/tabulator.min.css" rel="stylesheet">-->
         <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link href="https://unpkg.com/tabulator-tables@4.0.5/dist/css/tabulator.min.css" rel="stylesheet">
+        <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.0.5/dist/js/tabulator.min.js"></script>
     </head>
     <body>
         <p>
@@ -15,11 +18,12 @@
         <p>
             <button id="send">Send</button>
         </p>
-        <script src="js/ws.js"></script>
+        <!--<script type="text/javascript" src="dist/js/tabulator.min.js"></script>-->
         <script
               type="text/javascript"
               src="https://rawgit.com/mholt/PapaParse/master/papaparse.min.js">
         </script>
+        <script src="js/ws.js"></script>
         <script src="js/csvread.js"></script>
     </body>
 </html>

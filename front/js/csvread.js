@@ -12,7 +12,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
                 Papa.parse(f, {
                     delimiter: "|",
                     header: true,
-                    complete: addStaffToDOM,
+                    complete: insertTable,
                     skipEmptyLines: true,
                 })
             }
@@ -29,30 +29,22 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
 
     document.getElementById('file').addEventListener('change', handleFileSelect, false);
 
-    function addStaffToDOM(results, file) {
-        ws.send(JSON.stringify(results));
+    function insertTable(d) {
+        var table = new Tabulator('#table', {
+            layout: 'fitColumns',
+            index: 'First',
+            data: d.data,
+            columns: (function() {
+            })(),
+        });
 
-        var table = document.getElementById('table');
-        var header = results.meta.fields;
-        var headerEl = document.createElement('p');
-        for (item of header) {
-            var cell = document.createElement('span');
-            cell.classList.add("header-col-" + header.indexOf(item));
-            cell.innerText = item;
-            headerEl.appendChild(cell);
-            table.appendChild(headerEl);
-        }
-        for (row of results.data) {
-            var staffEl = document.createElement('p');
-            for (item of header) {
-                var cell = document.createElement('span');
-                cell.setAttribute("contenteditable", 'true');
-                cell.classList.add("col-" + header.indexOf(item));
-                cell.innerText = row[item];
-                staffEl.appendChild(cell);
-                table.appendChild(staffEl);
-            }
-        }
+        //table.setData(data)
+            //.then(function() {
+
+            //})
+            //.catch(function(e){
+                //console.log(e);
+            //});
     }
 
 } else {
