@@ -4,10 +4,10 @@ class Staff(abc.ABC):
 
     __id = 0;
 
-    @abc.abstractmethod
-    def __init__(self, header, row):
+    def __init__(self, fname, lname, seniority, isCharge, isVent, daysRequestedOn,
+            daysRequestedOff, daysRequestedOffSchool, daysVacation,
+            daysEducation, daysBonus):
 
-        self.__dict__ = dict(zip(header, row));
         self.first = fname;
         self.last = lname;
         self.seniority = int(seniority);
