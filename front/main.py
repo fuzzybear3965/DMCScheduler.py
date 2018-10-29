@@ -27,9 +27,3 @@ start_server = websockets.serve(root, '127.0.0.1', 5678)
 loop = asyncio.get_event_loop()
 loop.run_until_complete(start_server)
 loop.run_forever()
-
-# try: 
-# except KeyboardInterrupt:
-    # raise
-# except:
-    # print("Received exit, exiting.")
