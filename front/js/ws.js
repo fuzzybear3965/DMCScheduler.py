@@ -1,11 +1,7 @@
 var ws = new WebSocket("ws://127.0.0.1:5678/")
 
 function sendData(event) {
-    var cnt = 0;
-    return function(){
-        cnt += 1;
-        ws.send("hey " + cnt);
-    }
+    ws.send(table.getData());
 };
 
 ws.onmessage = function(event) {
@@ -13,5 +9,4 @@ ws.onmessage = function(event) {
 }
 
 msg = document.getElementById('send');
-
-msg.addEventListener('click', sendData())
+msg.addEventListener('click', sendData)
