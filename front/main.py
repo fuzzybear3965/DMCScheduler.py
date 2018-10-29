@@ -20,7 +20,7 @@ async def root(websocket, path):
         except websockets.exceptions.ConnectionClosed:
             print("Client closed connection.")
             break;
-        print("Received {0}.".format(json_data["meta"]["fields"]))
+        print("Received {0}.".format(json_data))
 
 start_server = websockets.serve(root, '127.0.0.1', 5678)
 
