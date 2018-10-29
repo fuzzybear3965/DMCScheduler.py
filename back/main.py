@@ -29,7 +29,7 @@ def main():
                         n['First'], n['Last'], n['Seniority'],
                         n['Charge'], n['Vent'], n['RequestedOn'],
                         n['RequestedOff'], n['RequestedOffSchool'],
-                        n['Vacation'], n['Education'], n['Bonus']));
+                        n['Vacation'], n['Education'], n['Bonus'],n['Title']));
 
             print("\nMaking schedule.\n")
 

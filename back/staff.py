@@ -6,11 +6,12 @@ class Staff(abc.ABC):
 
     def __init__(self, fname, lname, seniority, isCharge, isVent, daysRequestedOn,
             daysRequestedOff, daysRequestedOffSchool, daysVacation,
-            daysEducation, daysBonus):
+            daysEducation, daysBonus, title):
 
         self.first = fname;
         self.last = lname;
         self.seniority = int(seniority);
+        self.title = title;
 
         self.daysRequestedOn = csv_list_to_python_list(daysRequestedOn);
         self.daysRequestedOff = csv_list_to_python_list(daysRequestedOff);
