@@ -3,6 +3,11 @@ var table = new Tabulator('#table', {
     index: 'First',
 })
 
+var scheduleTable = new Tabulator('#schedule', {
+    layout: 'fitColumns',
+    //index: 'name',
+})
+
 function setColumns(data) {
     var cols = [];
     for (f of data.meta.fields) {
@@ -31,4 +36,26 @@ function setColumns(data) {
 function insertTable(d) {
     table.setData(d.data);
     table.setColumns(setColumns(d));
+}
+
+function insertSchedule(d) {
+    scheduleTable.setData(d);
+    scheduleTable.setColumns(
+        (function() {
+            cols = [];
+            cols.push({
+                title: 'Name',
+                field: 'name',
+            })
+            for (i = 0; i < 28; i++) {
+                title_str = 'Day ' + i;
+                field_str = 'day' + i;
+                cols.push({
+                    title: title_str,
+                    field: field_str,
+                }); 
+            }
+            return cols
+        })()
+    );
 }
