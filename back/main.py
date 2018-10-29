@@ -38,6 +38,8 @@ def main():
 
             print("Done making schedule. Sending to client.\n")
 
+            await websocket.send(json.dumps(s.json_representation()))
+
             # print(s)
 
             # debug.print_week(week, nurses) if DEBUG == True else None;
