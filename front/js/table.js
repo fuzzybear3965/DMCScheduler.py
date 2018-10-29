@@ -53,6 +53,7 @@ function insertSchedule(d) {
                 cols.push({
                     title: title_str,
                     field: field_str,
+                    align: 'center',
                 }); 
             }
             return cols

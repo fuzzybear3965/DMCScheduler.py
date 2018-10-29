@@ -27,7 +27,7 @@ if (window.File && window.FileReader && window.FileList && window.Blob) {
         document.getElementById('list').innerHTML = '<ul>' + output + '</ul>';
     }
 
-    document.getElementById('file').addEventListener('change', handleFileSelect, false);
+    document.getElementById('file-upload').addEventListener('change', handleFileSelect, false);
 } else {
     alert('The File APIs are not fully supported in this browser.');
 }
