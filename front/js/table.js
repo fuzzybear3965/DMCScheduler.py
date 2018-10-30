@@ -3,7 +3,7 @@ a = doubleClickHandler();
 var table = new Tabulator('#table', {
     layout: 'fitColumns',
     index: 'First',
-    columns: setColumns(),
+    columns: setColumns(true),
     selectable: true,
     rowClick: a
 })
@@ -36,7 +36,7 @@ var scheduleTable = new Tabulator('#schedule', {
         }()),
 })
 
-function setColumns() {
+function setColumns(editable) {
     var fields = ['First','Last','Seniority','Title','WeekendType','Charge','Vent','RequestedOn',
     'RequestedOff','RequestedOffSchool','Vacation','Education','Bonus'];
     cols = fields.map(x => ({field: x}))
@@ -44,21 +44,29 @@ function setColumns() {
     for (col of cols) {
         f = col.field
         if ( f === 'First' || f === 'Last' || f === 'Seniority') {
-            col.editor = true;
+            col.editor = editable;
         }  else if ( f === 'Title' ) {
-            col.editor = 'select';
-            col.editorParams = {Nurse: 'Nurse', CNA: 'CNA'};
+            if (editable) {
+                col.editor = 'select';
+                col.editorParams = {Nurse: 'Nurse', CNA: 'CNA'};
+            }
         } else if ( f === 'WeekendType') {
-            col.editor = 'select';
-            col.editorParams = {'A': 'A', 'B': 'B'};
+            if (editable) {
+                col.editor = 'select';
+                col.editorParams = {'A': 'A', 'B': 'B'};
+            }
         } else if (f === 'Charge' || f === 'Vent') {
-            col.editor = 'select';
-            col.editorParams= {Yes:'Yes', No: 'No'};
+            if (editable) {
+                col.editor = 'select';
+                col.editorParams= {Yes:'Yes', No: 'No'};
+            }
         }else if (
             f === 'RequestedOn' || f === 'RequestedOff' ||
             f === 'RequestedOffSchool' || f === 'Vacation' ||
             f === 'Education' || f === 'Bonus'){
-            col.editor = true;
+            if (editable) {
+                col.editor = true;
+            }
         } 
         col.title = f;
     }
@@ -106,4 +114,13 @@ function doubleClickHandler() {
             clickedStruct.push(rowObj);
         }
     }
+}
+
+var toggleEditEl = document.getElementById('toggle-editability');
+toggleEditEl.addEventListener('click', toggleEditability)
+
+function toggleEditability() {
+    var isEditable = table.columnManager.columns[0].definition.editor;
+    console.log('Columns are now ' + isEditable + ' editable.')
+    table.setColumns(setColumns(!isEditable));
 }
