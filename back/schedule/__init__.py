@@ -27,7 +27,7 @@ class Schedule(Sequence):
             for w in self.weeks:
                 for d in w.days:
                     if n in d.nurses:
-                        res[len(res)-1]['day'+str(day_cnt)] = 'X'
+                        res[len(res)-1]['day'+str(day_cnt)] = '7PC'
                     else:
                         res[len(res)-1]['day'+str(day_cnt)] = ''
                     day_cnt += 1;

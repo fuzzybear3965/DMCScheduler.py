@@ -9,22 +9,19 @@
         <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.0.5/dist/js/tabulator.min.js"></script>
     </head>
     <body>
+        <button id="add-row">Add Row (+)</button>
+        <p id='filename'></p>
+        <p id="table"></p>
         <p>
-            <!--<input type="file" id="file" name="files"/>-->
             <label for="file-upload" class="custom-file-upload">
-                Upload File
+                Upload Template
             </label>
             <input id="file-upload" type="file"/>
             <output id="list"></output>
-        </p>
-        <p id="table">
-        </p>
-        <p>
+            <button id="download">Download Template</button>
             <button id="send">Make Schedule</button>
         </p>
-        <p id="schedule">
-        </p>
-        <!--<script type="text/javascript" src="dist/js/tabulator.min.js"></script>-->
+        <p id="schedule"></p>
         <script
               type="text/javascript"
               src="https://rawgit.com/mholt/PapaParse/master/papaparse.min.js">

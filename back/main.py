@@ -27,11 +27,12 @@ def main():
             for n in json_data:
                 nurses.append(staff.Staff(
                         n['First'], n['Last'], n['Seniority'],
+                        n['WeekendType'], n['Title'],
                         n['Charge'], n['Vent'], n['RequestedOn'],
                         n['RequestedOff'], n['RequestedOffSchool'],
-                        n['Vacation'], n['Education'], n['Bonus'],n['Title']));
+                        n['Vacation'], n['Education'], n['Bonus']));
 
-            print("\nMaking schedule.\n")
+            print("\nMaking schedule.\n");
 
             s = schedule.Schedule(nurses);
             s.gen_schedule();

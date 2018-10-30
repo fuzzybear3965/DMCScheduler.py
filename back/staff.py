@@ -1,17 +1,21 @@
-import sys, abc
+import sys, abc, warnings
 
 class Staff(abc.ABC):
 
     __id = 0;
 
-    def __init__(self, fname, lname, seniority, isCharge, isVent, daysRequestedOn,
+    def __init__(self, fname, lname, seniority, weekendType, title, isCharge, isVent, daysRequestedOn,
             daysRequestedOff, daysRequestedOffSchool, daysVacation,
-            daysEducation, daysBonus, title):
+            daysEducation, daysBonus):
 
         self.first = fname;
         self.last = lname;
         self.seniority = int(seniority);
+        self.weekendType = weekendType;
         self.title = title;
+
+        self.isCharge = True if isCharge == 'Yes' else 'No';
+        self.isVent = True if isVent == 'Yes' else 'No';
 
         self.daysRequestedOn = csv_list_to_python_list(daysRequestedOn);
         self.daysRequestedOff = csv_list_to_python_list(daysRequestedOff);
@@ -20,19 +24,21 @@ class Staff(abc.ABC):
         self.daysEducation = csv_list_to_python_list(daysEducation);
         self.daysBonus = csv_list_to_python_list(daysBonus);
 
+        self.daysScheduled = [] # scheduled days for each staff
+
         # check to see if any days are defined in a conflicting way and throw an
         # error if any of the days overlap
         if has_common_elements([self.daysRequestedOn, self.daysRequestedOff,
             self.daysRequestedOffSchool, self.daysVacation,
             self.daysEducation]):
-            raise ValueError("Days not defined in unique ways for {0} {1}.".format(self.first, self.last))
+            warnings.warn(("Days not defined in unique ways for {0} {1}.".format(self.first, self.last)))
         else:
             self.daysScheduled = list(set().union(self.daysRequestedOn, self.daysRequestedOff,
                 self.daysRequestedOffSchool, self.daysVacation, self.daysEducation))
 
         # ensure that bonus days are requestedOn days
         if len(list(set(self.daysBonus).intersection(self.daysRequestedOn))) != len(self.daysBonus):
-            raise ValueError("Not all bonus days were on a RequestedOn day for nurse {0} {1}".format(self.first, self.last))
+            warnings.warn("Not all bonus days were on a RequestedOn day for nurse {0} {1}".format(self.first, self.last))
 
         # made it here; increment ID
         self.__id = self.increment_id(); # increments the counter for the class
@@ -57,13 +63,15 @@ class Staff(abc.ABC):
         res = 'Name: {0} {1}\n'.format(self.first, self.last);
         res += 'Charge: {0}\n'.format('Yes' if self.isCharge else 'No')
         res += 'Vent: {0}\n'.format('Yes' if self.isVent else 'No')
+        res += 'Seniority: ' + str(self.seniority) + '\n'
+        res += 'Weekend Type: ' + str(self.weekendType) + '\n'
+        res += 'Title: ' + str(self.title) + '\n'
         res += 'Days Requested On: ' + ','.join(str(e) for e in self.daysRequestedOn) + '\n'
         res += 'Days Requested Off: ' + ','.join(str(e) for e in self.daysRequestedOff) + '\n'
         res += 'Days Requested Off School: ' + ','.join(str(e) for e in self.daysRequestedOffSchool) + '\n'
         res += 'Vacation Days: ' + ','.join(str(e) for e in self.daysVacation) + '\n'
         res += 'Education Days: ' + ','.join(str(e) for e in self.daysEducation) + '\n'
         res += 'Bonus Days: ' + ','.join(str(e) for e in self.daysBonus) + '\n'
-        res += 'Seniority: ' + str(self.seniority) + '\n'
         return res
 
 def csv_list_to_python_list(CSVString):
