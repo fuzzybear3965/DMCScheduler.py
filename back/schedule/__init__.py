@@ -29,7 +29,6 @@ class Schedule(Sequence):
             day = 0;
             for w in self.weeks:
                 for d in w.days:
-                    print(d);
                     if n in d.staff:
                         schedule[len(schedule)-1]['day'+str(day)] = '7P';
                     else:

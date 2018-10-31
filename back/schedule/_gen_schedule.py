@@ -46,20 +46,22 @@ def _populate_schedule(s):
     day = 0;
     for w in s.weeks:
         for d in w.days:
-            if len(d) < 7:
+            weekend_understaffed = (day % 7 in (1,5)) and (len(d) < 8)
+            weekday_understaffed = (day % 7 not in (1,5)) and (len(d) < 7)
+            is_understaffed = weekday_understaffed or weekend_understaffed;
+            if is_understaffed:
                 eligible_staff = [];
                 for n in s.staff:
-                    if day not in n.daysRequestedOff + n.daysRequestedOffSchool + n.daysVacation:
+                    scheduled_off = n.daysRequestedOff + n.daysRequestedOffSchool + n.daysVacation
+                    if (day not in scheduled_off) and (n not in d.staff):
                         eligible_staff.append(n);
-                if day % 7 in (1,5): # monday/friday need 8+ people
-                    print("Day {0} is understaffed with {1} staff members.".format(day, len(d)))
+                if weekend_understaffed: # monday/friday need 8+ people
                     num_needed = 8-len(d);
                     selected_staff = _weighted_select_n(
                             eligible_staff, num_needed
                             );
                     d.staff.extend(selected_staff);
                 else: # weekdays need 7+
-                    print("Day {0} is understaffed with {1} staff members.".format(day, len(d)))
                     num_needed = 7-len(d);
                     selected_staff = _weighted_select_n(
                             eligible_staff, num_needed
