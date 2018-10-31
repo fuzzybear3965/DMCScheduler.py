@@ -23,9 +23,9 @@ def main():
                 print("Client closed connection.")
                 break;
             json_data = json.loads(string_data);
-            nurses = [];
+            personnel = [];
             for n in json_data:
-                nurses.append(staff.Staff(
+                personnel.append(staff.Staff(
                         n['First'], n['Last'], n['Seniority'],
                         n['WeekendType'],
                         n['Charge'], n['Vent'], n['RequestedOn'],
@@ -34,7 +34,7 @@ def main():
 
             print("\nMaking schedule.\n");
 
-            s = schedule.Schedule(nurses);
+            s = schedule.Schedule(personnel);
             s.gen_schedule();
 
             print("Done making schedule. Sending to client.\n")
@@ -43,7 +43,7 @@ def main():
 
             # print(s)
 
-            # debug.print_week(week, nurses) if DEBUG == True else None;
+            # debug.print_week(week, personnel) if DEBUG == True else None;
 
             print("Checking schedule for invalidations.\n")
 
@@ -58,16 +58,5 @@ def main():
     loop = asyncio.get_event_loop()
     loop.run_until_complete(start_server)
     loop.run_forever()
-    # nurses = [];
-    # with open('../test/nurse.csv', 'r') as csvfile:
-        # reader = csv.reader(csvfile, delimiter='|');
-        # next(reader) # skip the header
-        # # make the array of Nurse objects
-        # for l in reader:
-            # # Format: 0) First, 1) Last, 2) Seniority, 3) Charge, 4) Vent, 5) RequestedOn,
-            # # 6) RequestedOff, 7) RequestedOffSchool, 8) Vacation, 9) Education,
-            # # 10) Bonus
-            # nurses.append(staff.Nurse(l[0],l[1],l[2],l[3],l[4],l[5],l[6],l[7],l[8],l[9],l[10]));
-
 
 main()
