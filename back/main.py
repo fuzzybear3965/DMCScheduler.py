@@ -39,19 +39,9 @@ def main():
 
             print("Done making schedule. Sending to client.\n")
 
-            await websocket.send(json.dumps(s.json_representation()))
-
-            # print(s)
-
-            # debug.print_week(week, personnel) if DEBUG == True else None;
-
-            print("Checking schedule for invalidations.\n")
-
             print("Checking schedule for penalties.")
 
-            # for day_idx, day in enumerate(week):
-                # penalties = checkschedule.penalties_day(day, day_idx);
-                # print("Penalties", penalties);
+            await websocket.send(json.dumps(s.json_representation()))
 
     start_server = websockets.serve(root, '127.0.0.1', 5678);
 
