@@ -4,7 +4,7 @@ class Staff(abc.ABC):
 
     __id = 0;
 
-    def __init__(self, fname, lname, seniority, weekendType, title, isCharge, isVent, daysRequestedOn,
+    def __init__(self, fname, lname, seniority, weekendType, isCharge, isVent, daysRequestedOn,
             daysRequestedOff, daysRequestedOffSchool, daysVacation,
             daysEducation, daysBonus):
 
@@ -12,7 +12,6 @@ class Staff(abc.ABC):
         self.last = lname;
         self.seniority = int(seniority);
         self.weekendType = weekendType;
-        self.title = title;
 
         self.isCharge = True if isCharge == 'Yes' else 'No';
         self.isVent = True if isVent == 'Yes' else 'No';
@@ -23,8 +22,6 @@ class Staff(abc.ABC):
         self.daysVacation = csv_list_to_python_list(daysVacation);
         self.daysEducation = csv_list_to_python_list(daysEducation);
         self.daysBonus = csv_list_to_python_list(daysBonus);
-
-        self.daysScheduled = [] # scheduled days for each staff
 
         # check to see if any days are defined in a conflicting way and throw an
         # error if any of the days overlap
@@ -65,7 +62,6 @@ class Staff(abc.ABC):
         res += 'Vent: {0}\n'.format('Yes' if self.isVent else 'No')
         res += 'Seniority: ' + str(self.seniority) + '\n'
         res += 'Weekend Type: ' + str(self.weekendType) + '\n'
-        res += 'Title: ' + str(self.title) + '\n'
         res += 'Days Requested On: ' + ','.join(str(e) for e in self.daysRequestedOn) + '\n'
         res += 'Days Requested Off: ' + ','.join(str(e) for e in self.daysRequestedOff) + '\n'
         res += 'Days Requested Off School: ' + ','.join(str(e) for e in self.daysRequestedOffSchool) + '\n'

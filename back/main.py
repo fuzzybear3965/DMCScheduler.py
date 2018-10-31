@@ -27,7 +27,7 @@ def main():
             for n in json_data:
                 nurses.append(staff.Staff(
                         n['First'], n['Last'], n['Seniority'],
-                        n['WeekendType'], n['Title'],
+                        n['WeekendType'],
                         n['Charge'], n['Vent'], n['RequestedOn'],
                         n['RequestedOff'], n['RequestedOffSchool'],
                         n['Vacation'], n['Education'], n['Bonus']));
