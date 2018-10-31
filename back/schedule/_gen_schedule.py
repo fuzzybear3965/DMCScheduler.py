@@ -8,64 +8,64 @@ def gen_schedule(self):
     _populate_schedule(self);
     _record_staff_days(self);
 
-# init_schedule adds nurses to those days they have requested
+# init_schedule adds staff to those days they have requested
 def _init_schedule(schedule):
-    schedule.weeks = [Week(schedule.nurses) for i in range(4)]
-    # Add nurses to their requested days
-    for n in schedule.nurses:
+    schedule.weeks = [Week(schedule.staff) for i in range(4)]
+    # Add staff to their requested days
+    for n in schedule.staff:
         for d in n.daysRequestedOn:
             week_idx = d // 7;
             day_idx = d % 7;
-            schedule.weeks[week_idx].days[day_idx].nurses.append(n)
+            schedule.weeks[week_idx].days[day_idx].staff.append(n)
 
-# cull_schedule removes nurses of low seniority from weekdays and high seniority
-# from weekends. It reduces the maximum number of nurses to the minimum required
-# for all days. populate_schedule adds more nurses to certain days
+# cull_schedule removes staff of low seniority from weekdays and high seniority
+# from weekends. It reduces the maximum number of staff to the minimum required
+# for all days. populate_schedule adds more staff to certain days
 def _cull_schedule(schedule):
     day = 0;
     for w in schedule.weeks:
         for d in w.days:
             # TODO: Make number of staff per day something user-configurable
-            if len(d.nurses) > 7:
-                # arrange nurses by seniority
-                seniorities = [x.seniority for x in d.nurses]
+            if len(d.staff) > 7:
+                # arrange staff by seniority
+                seniorities = [x.seniority for x in d.staff]
                 # taken from https://stackoverflow.com/questions/6618515/sorting-list-based-on-values-from-another-list
-                d.nurses = [x for _,x in sorted(zip(seniorities, d.nurses), key=lambda pair: pair[0])]
+                d.staff = [x for _,x in sorted(zip(seniorities, d.staff), key=lambda pair: pair[0])]
                 # too many weekend people, keep the low seniority folk
                 if day % 7 in (1,5):
-                    d.nurses = d.nurses[0:7]
+                    d.staff = d.staff[0:7]
                 else:
-                    d.nurses = d.nurses[-7:]
+                    d.staff = d.staff[-7:]
             day += 1;
 
-# pop_schedule adds random eligible nurses of high seniority to understaffed
-# weekdays and random eligible nurses of low seniority to understaffed weekends.
-# Mondays and Fridays receive a random number of extra nurses to compensate for
+# pop_schedule adds random eligible staff of high seniority to understaffed
+# weekdays and random eligible staff of low seniority to understaffed weekends.
+# Mondays and Fridays receive a random number of extra staff to compensate for
 # frequent sick days
 def _populate_schedule(schedule):
     day = 0;
     for w in schedule.weeks:
         for d in w.days:
             if len(d) < 7:
-                eligible_nurses = [];
-                for n in schedule.nurses:
+                eligible_staff = [];
+                for n in schedule.staff:
                     if day not in n.daysRequestedOff + n.daysRequestedOffSchool + n.daysVacation:
-                        eligible_nurses.append(n);
+                        eligible_staff.append(n);
                 if day % 7 in (1,5): # monday/friday need 8+ people
                     print("Day {0} is understaffed with {1} staff members.".format(day, len(d)))
                     num_needed = 8-len(d);
-                    selected_nurses = _weighted_select_n(
-                            eligible_nurses, num_needed
+                    selected_staff = _weighted_select_n(
+                            eligible_staff, num_needed
                             );
-                    d.nurses.extend(selected_nurses);
-                    print('selected {0} additional staff for day {1}.'.format(len(selected_nurses), day))
+                    d.staff.extend(selected_staff);
+                    print('selected {0} additional staff for day {1}.'.format(len(selected_staff), day))
                 else: # weekdays need 7+
                     print("Day {0} is understaffed with {1} staff members.".format(day, len(d)))
                     num_needed = 7-len(d);
-                    selected_nurses = _weighted_select_n(
-                            eligible_nurses, num_needed
+                    selected_staff = _weighted_select_n(
+                            eligible_staff, num_needed
                             );
-                    d.nurses.extend(selected_nurses);
+                    d.staff.extend(selected_staff);
             day += 1;
 # record_staff_days records the schedhuled days of each staff member in the
 # object corresponding to each staff member.
@@ -73,7 +73,7 @@ def _record_staff_days(s):
     day = 0;
     for w in s.weeks:
         for d in w.days:
-            for staff in d.nurses:
+            for staff in d.staff:
                 staff.daysScheduled.append(day);
             day += 1;
 

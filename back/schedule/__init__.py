@@ -1,8 +1,8 @@
 from collections import Sequence
 class Schedule(Sequence):
-    def __init__(self,ns):
+    def __init__(self,staff):
         self.weeks = []; # array of week objects
-        self.nurses = ns; # array of all nurses
+        self.staff = staff; # array of all staff members
 
     def __str__(self):
         res = '';
@@ -21,12 +21,12 @@ class Schedule(Sequence):
 
     def json_representation(self):
         res = [];
-        for n in self.nurses:
+        for n in self.staff:
             res.append({'name': n.first + ' ' + n.last})
             day_cnt = 0;
             for w in self.weeks:
                 for d in w.days:
-                    if n in d.nurses:
+                    if n in d.staff:
                         res[len(res)-1]['day'+str(day_cnt)] = '7PC'
                     else:
                         res[len(res)-1]['day'+str(day_cnt)] = ''

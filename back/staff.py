@@ -35,7 +35,7 @@ class Staff(abc.ABC):
 
         # ensure that bonus days are requestedOn days
         if len(list(set(self.daysBonus).intersection(self.daysRequestedOn))) != len(self.daysBonus):
-            warnings.warn("Not all bonus days were on a RequestedOn day for nurse {0} {1}".format(self.first, self.last))
+            warnings.warn("Not all bonus days were on a RequestedOn day for staff member {0} {1}".format(self.first, self.last))
 
         # made it here; increment ID
         self.__id = self.increment_id(); # increments the counter for the class
