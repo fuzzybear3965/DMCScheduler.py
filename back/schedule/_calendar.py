@@ -1,6 +1,6 @@
 class Day:
     def __init__(self):
-        self.staff = [];  # array of Nurse objects
+        self.staff = [];  # array of Staff objects
 
     def __str__(self):
         res = '';
@@ -12,9 +12,9 @@ class Day:
         return len(self.staff);
 
 class Week:
-    def __init__(self, ns):
+    def __init__(self, staff):
         self.days = [Day() for i in range(7)]; # array of day objects
-        self._staff = ns;
+        self._staff = staff;
 
     def __str__(self):
         res = '';

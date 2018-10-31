@@ -6,7 +6,9 @@ function sendData(event) {
 
 ws.onmessage = function(event) {
     data = JSON.parse(event.data);
-    insertSchedule(data);
+    if (data.message === 'schedule') {
+        insertSchedule(data.schedule);
+    }
 }
 
 msg = document.getElementById('send');

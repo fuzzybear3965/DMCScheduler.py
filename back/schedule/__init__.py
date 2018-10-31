@@ -3,6 +3,7 @@ class Schedule(Sequence):
     def __init__(self,staff):
         self.weeks = []; # array of week objects
         self.staff = staff; # array of all staff members
+        self.errors = [];
 
     def __str__(self):
         res = '';
@@ -20,17 +21,22 @@ class Schedule(Sequence):
         return self.weeks[indices]
 
     def json_representation(self):
-        res = [];
+        res = {};
+        res['message'] = 'schedule';
+        schedule = [];
         for n in self.staff:
-            res.append({'name': n.first + ' ' + n.last})
-            day_cnt = 0;
+            schedule.append({'name': n.first + ' ' + n.last});
+            day = 0;
             for w in self.weeks:
                 for d in w.days:
+                    print(d);
                     if n in d.staff:
-                        res[len(res)-1]['day'+str(day_cnt)] = '7PC'
+                        schedule[len(schedule)-1]['day'+str(day)] = '7P';
                     else:
-                        res[len(res)-1]['day'+str(day_cnt)] = ''
-                    day_cnt += 1;
+                        schedule[len(schedule)-1]['day'+str(day)] = '';
+                    day += 1;
+        res['schedule'] = schedule;
+        res['errors'] = self.errors;
         return res
 
     from ._gen_schedule import gen_schedule

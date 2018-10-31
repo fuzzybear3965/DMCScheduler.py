@@ -42,13 +42,13 @@ def _cull_schedule(schedule):
 # weekdays and random eligible staff of low seniority to understaffed weekends.
 # Mondays and Fridays receive a random number of extra staff to compensate for
 # frequent sick days
-def _populate_schedule(schedule):
+def _populate_schedule(s):
     day = 0;
-    for w in schedule.weeks:
+    for w in s.weeks:
         for d in w.days:
             if len(d) < 7:
                 eligible_staff = [];
-                for n in schedule.staff:
+                for n in s.staff:
                     if day not in n.daysRequestedOff + n.daysRequestedOffSchool + n.daysVacation:
                         eligible_staff.append(n);
                 if day % 7 in (1,5): # monday/friday need 8+ people
@@ -58,7 +58,6 @@ def _populate_schedule(schedule):
                             eligible_staff, num_needed
                             );
                     d.staff.extend(selected_staff);
-                    print('selected {0} additional staff for day {1}.'.format(len(selected_staff), day))
                 else: # weekdays need 7+
                     print("Day {0} is understaffed with {1} staff members.".format(day, len(d)))
                     num_needed = 7-len(d);
@@ -66,8 +65,11 @@ def _populate_schedule(schedule):
                             eligible_staff, num_needed
                             );
                     d.staff.extend(selected_staff);
+                if len(selected_staff) != num_needed:
+                    s.errors.append('Not enough eligible staff on day {0}.'.format(day))
             day += 1;
-# record_staff_days records the schedhuled days of each staff member in the
+            
+# record_staff_days records the scheduled days of each staff member in the
 # object corresponding to each staff member.
 def _record_staff_days(s):
     day = 0;
