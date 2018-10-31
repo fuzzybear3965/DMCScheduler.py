@@ -37,11 +37,13 @@ def main():
             s = schedule.Schedule(personnel);
             s.gen_schedule();
 
-            print("Done making schedule. Sending to client.\n")
-
             print("Checking schedule for penalties.")
 
+            errors = s.check_schedule();
+
+            print("Sending to client.")
             await websocket.send(json.dumps(s.json_representation()))
+
 
     start_server = websockets.serve(root, '127.0.0.1', 5678);
 

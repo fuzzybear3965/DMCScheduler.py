@@ -34,3 +34,4 @@ class Schedule(Sequence):
         return res
 
     from ._gen_schedule import gen_schedule
+    from ._check_schedule import check_schedule
