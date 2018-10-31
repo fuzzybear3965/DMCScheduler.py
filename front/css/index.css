@@ -16,3 +16,11 @@ button, .custom-file-upload {
 input[type="file"] {
     display: none;
 }
+
+#download {
+    background-color: #ff6961;
+}
+
+#toggle-editability {
+    background-color: #779ecb;
+}
