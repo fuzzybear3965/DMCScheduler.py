@@ -11,6 +11,8 @@ class Day:
     def __len__(self):
         return len(self.staff);
 
+    def __iter__(self):
+        return (staff for staff in self.staff);
 class Week:
     def __init__(self, staff):
         self.days = [Day() for i in range(7)]; # array of day objects

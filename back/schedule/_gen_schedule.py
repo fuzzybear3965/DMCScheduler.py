@@ -46,31 +46,39 @@ def _populate_schedule(s):
     day = 0;
     for w in s.weeks:
         for d in w.days:
-            weekend_understaffed = (day % 7 in (1,5)) and (len(d) < 8)
-            weekday_understaffed = (day % 7 not in (1,5)) and (len(d) < 7)
+            weekend_understaffed = (day % 7 in (0,5,6)) and (len(d) < 8);
+            weekday_understaffed = (day % 7 not in (0,5,6)) and (len(d) < 7);
             is_understaffed = weekday_understaffed or weekend_understaffed;
             if is_understaffed:
                 eligible_staff = [];
-                for n in s.staff:
-                    scheduled_off = n.daysRequestedOff + n.daysRequestedOffSchool + n.daysVacation
-                    if (day not in scheduled_off) and (n not in d.staff):
-                        eligible_staff.append(n);
                 if weekend_understaffed: # monday/friday need 8+ people
+                    if (day%14 in (0,12,13)): # A-type weekend
+                        for staff in s.staff:
+                            if staff not in d and not _has_day_off(staff, day):
+                                if staff.weekendType == 'A':
+                                    eligible_staff.append(staff);
+                    else: # B-type weekend
+                        for staff in s.staff:
+                            if staff not in d and not _has_day_off(staff, day):
+                                if staff.weekendType == 'B':
+                                    eligible_staff.append(staff);
+
                     num_needed = 8-len(d);
+
                     selected_staff = _weighted_select_n(
-                            eligible_staff, num_needed
+                            eligible_staff, num_needed, invert=True
                             );
                     d.staff.extend(selected_staff);
                 else: # weekdays need 7+
                     num_needed = 7-len(d);
                     selected_staff = _weighted_select_n(
-                            eligible_staff, num_needed
+                            eligible_staff, num_needed, invert=False
                             );
                     d.staff.extend(selected_staff);
                 if len(selected_staff) != num_needed:
                     s.errors.append('Not enough eligible staff on day {0}.'.format(day))
             day += 1;
-            
+
 # record_staff_days records the scheduled days of each staff member in the
 # object corresponding to each staff member.
 def _record_staff_days(s):
@@ -81,16 +89,26 @@ def _record_staff_days(s):
                 staff.daysScheduled.append(day);
             day += 1;
 
-
-def _weighted_select_n(lst, n):
-    weights = _weights_from_seniorities(lst);
+# weighted_select_n selects a subset of n elements from a lst of Staff objects.
+# If invert is True then lower seniority staff are more likely to be selected
+# (weekends).
+# If invert is False then higher seniority staff are more likely to be selected
+# (weekdays).
+def _weighted_select_n(lst, n, invert=True):
+    if invert:
+        weights = _normalize_weights([1/el.seniority for el in lst]);
+    else:
+        weights = _normalize_weights([el.seniority for el in lst]);
     res = [];
     for i in range(n):
         chosen = _weighted_choice(lst, weights);
         res.append(chosen);
         # remove chosen from list and update weights
         lst.pop(lst.index(chosen));
-        weights = _weights_from_seniorities(lst);
+        if invert:
+            weights = _normalize_weights([1/el.seniority for el in lst]);
+        else:
+            weights = _normalize_weights([el.seniority for el in lst]);
     return res
 
 # taken from https://scaron.info/blog/python-weighted-choice.html
@@ -104,6 +122,12 @@ def _weighted_choice(seq, weights):
             return elmt
         x -= weights[i]
 
-def _weights_from_seniorities(lst):
-    total_weight = reduce(lambda x,y : x + y, [1./el.seniority for el in lst])
-    return list(map(lambda x: x/total_weight, [1./el.seniority for el in lst]))
+def _normalize_weights(lst):
+    total_weight = sum(lst);
+    return [el/total_weight for el in lst];
+
+def _has_day_off(person, day):
+    scheduled_off = (person.daysRequestedOff +
+                    person.daysRequestedOffSchool + 
+                    person.daysVacation)
+    return (day in scheduled_off)

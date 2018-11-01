@@ -13,8 +13,8 @@ class Staff(abc.ABC):
         self.seniority = int(seniority);
         self.weekendType = weekendType;
 
-        self.isCharge = True if isCharge == 'Yes' else 'No';
-        self.isVent = True if isVent == 'Yes' else 'No';
+        self.isCharge = True if isCharge == 'Yes' else False;
+        self.isVent = True if isVent == 'Yes' else False;
 
         self.daysRequestedOn = csv_list_to_python_list(daysRequestedOn);
         self.daysRequestedOff = csv_list_to_python_list(daysRequestedOff);

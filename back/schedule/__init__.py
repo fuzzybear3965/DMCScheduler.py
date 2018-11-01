@@ -30,13 +30,24 @@ class Schedule(Sequence):
             for w in self.weeks:
                 for d in w.days:
                     if n in d.staff:
-                        schedule[len(schedule)-1]['day'+str(day)] = '7P';
+                        cell_string = '';
+                        if n.isCharge and not n.isVent:
+                            cell_string = '7P(C)';
+                        elif n.isCharge and n.isVent:
+                            cell_string = '7P(C)(V)';
+                        elif not n.isCharge and n.isVent:
+                            cell_string = '7P(V)';
+                        else:
+                            cell_string = '7P';
+                        if day in n.daysBonus:
+                            cell_string += '$';
+                        schedule[len(schedule)-1]['day'+str(day)] = cell_string
                     else:
                         schedule[len(schedule)-1]['day'+str(day)] = '';
                     day += 1;
         res['schedule'] = schedule;
         res['errors'] = self.errors;
         return res
-
+            
     from ._gen_schedule import gen_schedule
     from ._check_schedule import check_schedule
