@@ -62,3 +62,9 @@ var scheduleTable = new Tabulator('#schedule', {
 function insertSchedule(d) {
     scheduleTable.setData(d);
 }
+
+function downloadSchedule() {
+    scheduleTable.download('pdf', 'generated-schedule-' + timeStamp() + '.pdf') 
+}
+downloadEl = document.getElementById('schedule-download');
+downloadEl.addEventListener('click', downloadSchedule);

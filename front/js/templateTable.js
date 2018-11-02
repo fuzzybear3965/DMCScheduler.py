@@ -86,3 +86,10 @@ function toggleEditability() {
     noteEl.innerText = !isEditable ? '(Currently Editable)' : '(Currently Not Editable)';
     table.setColumns(setColumns(!isEditable));
 }
+
+function downloadTemplate(e) {
+    table.download('csv', 'schedule-template-' + timeStamp() + '.csv', {'delimiter':'|'})
+}
+
+dlEl = document.getElementById('download')
+dlEl.addEventListener('click', downloadTemplate)
