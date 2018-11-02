@@ -24,7 +24,11 @@ var scheduleTable = new Tabulator('#schedule', {
 })
 
 function insertSchedule(d) {
+    // make sure page doesn't scroll to top
+    x = document.documentElement.scrollLeft;
+    y = document.documentElement.scrollTop;
     scheduleTable.setData(d);
+    window.scrollTo(x,y);
 }
 
 function dayString(i) {

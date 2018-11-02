@@ -5,7 +5,7 @@ var table = new Tabulator('#table', {
     index: 'First',
     columns: setColumns(true),
     selectable: true,
-    rowClick: a
+    rowClick: a,
 })
 
 function setColumns(editable) {
