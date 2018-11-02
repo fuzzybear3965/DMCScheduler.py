@@ -9,7 +9,7 @@ var scheduleTable = new Tabulator('#schedule', {
         for (i = 0; i < 28; i++) {
             var day = dayString(i);
 
-            title_str = day +' (' + i + ')';
+            title_str = `${day} (${i})`;
             field_str = 'day' + i;
             cols.push({
                 title: title_str,
