@@ -1,3 +1,9 @@
+#table, #schedule, #filename, .button-container {
+    width: 98%;
+    margin-left: 1%;
+    margin-top: 5px;
+}
+
 /* from https://stackoverflow.com/questions/572768/styling-an-input-type-file-button */
 button, .custom-file-upload {
     background-color: #4CAF50; /* Green */
@@ -11,7 +17,9 @@ button, .custom-file-upload {
     font-family: 'Arial';
     width: 200px;
     padding: 10px 0px;
+    vertical-align: top;
 }
+
 
 input[type="file"] {
     display: none;
@@ -22,5 +30,20 @@ input[type="file"] {
 }
 
 #toggle-editability {
+    display: block;
     background-color: #779ecb;
+}
+
+#list-or-table {
+    background-color: #B19CD9;
+}
+
+#editability-block, #format-block {
+    display: inline-block;
+}
+
+#note-if-editable, #note-table-format {
+    text-align: center;
+    margin: 8px 0px 0px 0px;
+    font-weight: 600;
 }

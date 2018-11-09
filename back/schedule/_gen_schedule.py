@@ -95,20 +95,17 @@ def _record_staff_days(s):
 # If invert is False then higher seniority staff are more likely to be selected
 # (weekdays).
 def _weighted_select_n(lst, n, invert=True):
-    if invert:
-        weights = _normalize_weights([1/el.seniority for el in lst]);
-    else:
-        weights = _normalize_weights([el.seniority for el in lst]);
     res = [];
     for i in range(n):
-        chosen = _weighted_choice(lst, weights);
-        res.append(chosen);
-        # remove chosen from list and update weights
-        lst.pop(lst.index(chosen));
-        if invert:
-            weights = _normalize_weights([1/el.seniority for el in lst]);
-        else:
-            weights = _normalize_weights([el.seniority for el in lst]);
+        if len(lst) > 0:
+            if invert:
+                weights = _normalize_weights([1/el.seniority for el in lst]);
+            else:
+                weights = _normalize_weights([el.seniority for el in lst]);
+            chosen = _weighted_choice(lst, weights);
+            res.append(chosen);
+            # remove chosen from list and update weights
+            lst.pop(lst.index(chosen));
     return res
 
 # taken from https://scaron.info/blog/python-weighted-choice.html
@@ -124,7 +121,7 @@ def _weighted_choice(seq, weights):
 
 def _normalize_weights(lst):
     total_weight = sum(lst);
-    return [el/total_weight for el in lst];
+    return [float(el)/total_weight for el in lst];
 
 def _has_day_off(person, day):
     scheduled_off = (person.daysRequestedOff +

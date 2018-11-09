@@ -9,20 +9,28 @@
         <script type="text/javascript" src="https://unpkg.com/tabulator-tables@4.0.5/dist/js/tabulator.min.js"></script>
     </head>
     <body>
-        <button id="add-row">Add Row (+)</button>
-        <label for="file-upload" class="custom-file-upload" id="upload">
-            Upload Template
-        </label>
-        <input id="file-upload" type="file"/>
-        <output id="list"></output>
-        <button id="download">Download Template</button>
-        <button id="toggle-editability">Toggle Editability</button>
-        <span id="note-if-editable">(Currently Editable)</span>
-        <p id='filename'></p>
+        <div class="button-container">
+            <button id="add-row">Add Row (+)</button>
+            <label for="file-upload" class="custom-file-upload" id="upload">
+                Upload Template
+            </label>
+            <input id="file-upload" type="file"/>
+            <output id="list"></output>
+            <button id="download">Download Template</button>
+            <div id="format-block">
+                <button id="list-or-table">Change Table Format</button>
+                <p id="note-table-format">(Currently in Table Mode)</p>
+            </div>
+            <div id="editability-block">
+                <button id="toggle-editability">Toggle Editability</button>
+                <p id="note-if-editable">(Currently Editable)</p>
+            </div>
+        </div>
+        <div id='filename'></div>
         <div id="table"></div>
-        <p>
+        <div class="button-container">
             <button id="send">Make Schedule</button>
-        </p>
+        </div>
         <div id="schedule"></div>
         <script
               type="text/javascript"
