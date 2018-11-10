@@ -65,10 +65,3 @@ function timeStamp() {
 var cb = function() {
     console.log("hey");
 }
-
-function downloadTemplate(e) {
-    table.download('csv', 'schedule-template-' + timeStamp() + '.csv', {'delimiter':'|'})
-}
-
-dlEl = document.getElementById('download')
-dlEl.addEventListener('click', downloadTemplate)

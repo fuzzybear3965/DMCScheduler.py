@@ -44,6 +44,6 @@ input[type="file"] {
 
 #note-if-editable, #note-table-format {
     text-align: center;
-    margin: 8px 0px 0px 0px;
+    margin: 8px 0px 15px 0px;
     font-weight: 600;
 }

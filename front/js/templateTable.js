@@ -7,6 +7,7 @@ var table = new Tabulator('#table', {
     columns: setColumnsForTableMode(),
     selectable: true,
     rowClick: a,
+    downloadReady: formatDataForDownload,
 })
 
 // Configure the columns for list mode
@@ -202,4 +203,63 @@ function changeTableFormat() {
         document.getElementById('note-table-format').innerText = '(Currently in Table Mode)';
         table.setColumns(setColumnsForTableMode());
     }
+}
+
+function formatDataForDownload(fileContents, blob) {
+    data = table.getData();
+    console.log(data);
+    if (data[0].hasOwnProperty('RequestedOff')) { // List mode
+        for (let nurse of data) {
+            nurse.days = [];
+            listDataToTableData(nurse, 'RequestedOn', 'days', '7P');
+            listDataToTableData(nurse, 'RequestedOff', 'days', 'RO');
+            listDataToTableData(nurse, 'RequestedOffSchool', 'days', 'ROS');
+            listDataToTableData(nurse, 'Vacation', 'days', 'VAC');
+            listDataToTableData(nurse, 'Education', 'days', 'EDU');
+            listDataToTableData(nurse, 'Bonus', 'days', '7$P');
+            // clean up undefined entries
+            for (let i = 0; i < 28; i++) {
+                if (nurse.days[i] === undefined) {
+                    nurse[String(i)] = '';
+                } else {
+                    nurse[String(i)] = nurse.days[i];
+                }
+            }
+            delete nurse.days;
+        }
+        headings = [
+            "First",
+            "Last",
+            "Seniority",
+            "WeekendType",
+            "VacationType",
+            "Charge",
+            "Vent",
+        ]
+        for (let i = 0; i < 28; i++) {
+            headings.push(i.toString())
+        }
+        var fileString = "";
+        fileString += headings.join("|") + "\n";
+        for (let nurse of data) {
+            for (let heading of headings) {
+                text = nurse[heading]||""
+                fileString += text + "|";
+            }
+            fileString += "\n"
+        }
+
+        var newBlob = new Blob([fileString], { type: 'text/csv;charset=utf-8;' });
+        return newBlob;
+    } else {
+        return new Blob(data, "text/csv");
+    }
+}
+
+function listDataToTableData(object, inListLabel, outListLabel, dayLabel) {
+    days = object[inListLabel].split(',').map(x=>parseInt(x))
+    for (let day of days) {
+        object[outListLabel][day] = dayLabel;
+    }
+    delete object[inListLabel];
 }
