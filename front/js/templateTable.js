@@ -1,12 +1,9 @@
-doubleClickState = doubleClickHandler();
-
 // Create Tabulator object
 var table = new Tabulator('#table', {
     layout: 'fitColumns',
     index: 'First',
     columns: setColumns(),
     selectable: false,
-    rowClick: doubleClickState,
 })
 
 // Configure the columns for table mode
@@ -41,16 +38,25 @@ function setColumns() {
     for (i = 0; i < 28; i++) {
         title_str = `${i}`;
         field_str = title_str;
-        cols.push({
+        col_obj = {
             title: title_str,
             field: field_str,
             editor: 'select',
             editorParams : {values: ['', '7P', '7$P', 'RO', 'ROS', 'EDU', 'VAC',]}, 
-        });
-        col.editor = 'select';
+        }
+        if (i%7===0||i%7===6) {
+            col_obj.cssClass = "grey";
+        }
+        cols.push(col_obj);
     }
     for (col of cols) {
         col.editable = isEditable;
+        col.cellDblClick = function(e, cell) {
+            if (!isEditable()) {
+                let row = cell.getRow();
+                row.delete();
+            }
+        }
     }
 
     return cols
@@ -64,35 +70,6 @@ function addRow() { table.addRow({}) }
 
 var addRowEl = document.getElementById('add-row');
 addRowEl.addEventListener('click', addRow)
-
-// Helper function to handle deleting rows
-function doubleClickHandler() {
-    var clickedStruct = [];
-    return function(e,row) {
-        var found = false;
-        var rowObj =  {row:row, cnt: 0}
-        for (var i = 0; i < clickedStruct.length; i++) {
-            if (clickedStruct[i].row.getPosition() === row.getPosition()) {
-                found = true;
-                rowObj = clickedStruct[i]
-            }
-        }
-
-        rowObj.cnt += 1;
-        if (rowObj.cnt === 1) {
-            rowObj.timer = setTimeout(function() {
-                rowObj.cnt = 0;
-            }, 400);
-        } else if (rowObj.cnt === 2) {
-            rowObj.timer = clearTimeout(rowObj.timer)
-            rowObj.row.delete()
-        }
-
-        if (found === false) {
-            clickedStruct.push(rowObj);
-        }
-    }
-}
 
 // Allow for user to change the editability of the page
 var toggleEditEl = document.getElementById('toggle-editability');

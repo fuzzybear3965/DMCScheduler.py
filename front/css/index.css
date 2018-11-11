@@ -47,3 +47,7 @@ input[type="file"] {
     margin: 8px 0px 15px 0px;
     font-weight: 600;
 }
+
+.grey {
+    background-color: rgba(100,100,100,.15);
+}

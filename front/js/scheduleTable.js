@@ -9,15 +9,19 @@ var scheduleTable = new Tabulator('#schedule', {
         for (i = 0; i < 28; i++) {
             var day = dayString(i);
 
-            title_str = `${day} (${i})`;
-            field_str = 'day' + i;
-            cols.push({
+            title_str = `${i}`;
+            field_str = `${i}`;
+            col_obj = {
                 title: title_str,
                 field: field_str,
                 align: 'center',
                 bottomCalc: 'count',
                 formatter: cellFormatter,
-            }); 
+            };
+            if (i%7===0||i%7===6) {
+                col_obj.cssClass = "grey";
+            }
+            cols.push(col_obj); 
         }
         return cols
     }()),
