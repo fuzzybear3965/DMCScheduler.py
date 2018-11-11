@@ -5,9 +5,8 @@ var table = new Tabulator('#table', {
     layout: 'fitColumns',
     index: 'First',
     columns: setColumns(),
-    selectable: true,
+    selectable: false,
     rowClick: doubleClickState,
-    editable: isEditable,
 })
 
 // Configure the columns for table mode
@@ -50,6 +49,10 @@ function setColumns() {
         });
         col.editor = 'select';
     }
+    for (col of cols) {
+        col.editable = isEditable;
+    }
+
     return cols
 }
 
