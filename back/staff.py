@@ -4,9 +4,14 @@ class Staff(abc.ABC):
 
     __id = 0;
 
-    def __init__(self, fname, lname, seniority, weekendType, isCharge, isVent, daysRequestedOn,
-            daysRequestedOff, daysRequestedOffSchool, daysVacation,
-            daysEducation, daysBonus):
+    def __init__(self, 
+            fname, 
+            lname, 
+            seniority, 
+            weekendType, 
+            isCharge, 
+            isVent,
+            days):
 
         self.first = fname;
         self.last = lname;
@@ -16,12 +21,13 @@ class Staff(abc.ABC):
         self.isCharge = True if isCharge == 'Yes' else False;
         self.isVent = True if isVent == 'Yes' else False;
 
-        self.daysRequestedOn = csv_list_to_python_list(daysRequestedOn);
-        self.daysRequestedOff = csv_list_to_python_list(daysRequestedOff);
-        self.daysRequestedOffSchool = csv_list_to_python_list(daysRequestedOffSchool);
-        self.daysVacation = csv_list_to_python_list(daysVacation);
-        self.daysEducation = csv_list_to_python_list(daysEducation);
-        self.daysBonus = csv_list_to_python_list(daysBonus);
+# from https://stackoverflow.com/questions/176918/finding-the-index-of-an-item-given-a-list-containing-it-in-python
+        self.daysRequestedOn = [i for i,e in enumerate(days) if e == "7P"]
+        self.daysRequestedOff = [i for i,e in enumerate(days) if e == "RO"]
+        self.daysRequestedOffSchool = [i for i,e in enumerate(days) if e == "ROS"]
+        self.daysVacation = [i for i,e in enumerate(days) if e == "VAC"]
+        self.daysEducation = [i for i,e in enumerate(days) if e == "EDU"]
+        self.daysBonus = [i for i,e in enumerate(days) if e == "7$P"]
 
         # check to see if any days are defined in a conflicting way and throw an
         # error if any of the days overlap
@@ -32,10 +38,6 @@ class Staff(abc.ABC):
         else:
             self.daysScheduled = list(set().union(self.daysRequestedOn, self.daysRequestedOff,
                 self.daysRequestedOffSchool, self.daysVacation, self.daysEducation))
-
-        # ensure that bonus days are requestedOn days
-        if len(list(set(self.daysBonus).intersection(self.daysRequestedOn))) != len(self.daysBonus):
-            warnings.warn("Not all bonus days were on a RequestedOn day for staff member {0} {1}".format(self.first, self.last))
 
         # made it here; increment ID
         self.__id = self.increment_id(); # increments the counter for the class

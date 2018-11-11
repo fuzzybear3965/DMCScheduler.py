@@ -12,26 +12,28 @@ function setColumns() {
     cols = fields.map(x => ({field: x}))
 
     for (col of cols) {
-        col.editor = dataEditor;
         f = col.field
-        col.title = f;
         if ( f === 'First' || f === 'Last' || f === 'Seniority') {
             col.width='100';
             col.editor = true;
+            col.title = f;
         } else if ( f === 'WeekendType') {
             col.editor = 'select';
             col.editorParams = {values: ["A", "B"]}
             col.width = '100';
             col.title = 'Weekend';
+            col.downloadTitle = f;
         } else if ( f === 'VacationType') {
             col.editor = 'select';
             col.editorParams = {values: ["A", "B", "C"]}
-            col.title = 'Vacation';
             col.width = '100';
+            col.title = 'Vacation';
+            col.downloadTitle = f;
         } else if (f === 'Charge' || f === 'Vent') {
             col.editor = 'select';
             col.editorParams = {values: ["Yes", "No"]};
             col.width='80';
+            col.title = f;
         }
 
     }
@@ -62,9 +64,6 @@ function setColumns() {
     return cols
 }
 
-function dataEditor(cell, onRendered, success, cancel, editorParam) {
-
-}
 // Configure row adding capabilities
 function addRow() { table.addRow({}) }
 

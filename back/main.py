@@ -25,12 +25,13 @@ def main():
             json_data = json.loads(string_data);
             personnel = [];
             for n in json_data:
+                days = [];
+                for i in range(28):
+                    days.append(n[str(i)]);
                 personnel.append(staff.Staff(
                         n['First'], n['Last'], n['Seniority'],
                         n['WeekendType'],
-                        n['Charge'], n['Vent'], n['RequestedOn'],
-                        n['RequestedOff'], n['RequestedOffSchool'],
-                        n['Vacation'], n['Education'], n['Bonus']));
+                        n['Charge'], n['Vent'], days));
 
             print("\nMaking schedule.\n");
 
