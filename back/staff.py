@@ -31,14 +31,15 @@ class Staff(abc.ABC):
 
         # check to see if any days are defined in a conflicting way and throw an
         # error if any of the days overlap
-        if has_common_elements([self.daysRequestedOn, self.daysRequestedOff,
-            self.daysRequestedOffSchool, self.daysVacation,
-            self.daysEducation]):
-            warnings.warn(("Days not defined in unique ways for {0} {1}.".format(self.first, self.last)))
-        else:
-            self.daysScheduled = list(set().union(self.daysRequestedOn, self.daysRequestedOff,
-                self.daysRequestedOffSchool, self.daysVacation, self.daysEducation))
+        # if has_common_elements([self.daysRequestedOn, self.daysRequestedOff,
+            # self.daysRequestedOffSchool, self.daysVacation,
+            # self.daysEducation]):
+            # warnings.warn(("Days not defined in unique ways for {0} {1}.".format(self.first, self.last)))
+        # else:
+            # self.daysScheduled = list(set().union(self.daysRequestedOn, self.daysRequestedOff,
+                # self.daysRequestedOffSchool, self.daysVacation, self.daysEducation))
 
+        self.daysScheduled = [];
         # made it here; increment ID
         self.__id = self.increment_id(); # increments the counter for the class
         

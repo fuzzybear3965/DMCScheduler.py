@@ -1,6 +1,6 @@
 from collections import Sequence
 class Schedule(Sequence):
-    def __init__(self,staff):
+    def __init__(self, staff):
         self.weeks = []; # array of week objects
         self.staff = staff; # array of all staff members
         self.errors = [];
