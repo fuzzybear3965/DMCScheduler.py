@@ -6,7 +6,7 @@ import asyncio
 import websockets
 import signal
 import json
-from . import staff, schedule
+import staff, schedule
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
