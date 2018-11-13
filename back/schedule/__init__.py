@@ -77,11 +77,11 @@ class Schedule(Sequence):
             for w in self.weeks:
                 for d in w.days:
                     if n in d.staff:
-                        if n.isCharge and not n.isVent:
+                        if n.ischarge and not n.isvent:
                             cell_string = '7P(C)'
-                        elif n.isCharge and n.isVent:
+                        elif n.ischarge and n.isvent:
                             cell_string = '7P(C)(V)'
-                        elif not n.isCharge and n.isVent:
+                        elif not n.ischarge and n.isvent:
                             cell_string = '7P(V)'
                         else:
                             cell_string = '7P'
@@ -143,12 +143,12 @@ class Schedule(Sequence):
                         if day % 14 in (0, 12, 13):  # A-type weekend
                             for staff in self.staff:
                                 if staff not in d and not _has_day_off(staff, day):
-                                    if staff.weekendType == 'A':
+                                    if staff.weekendtype == 'A':
                                         eligible_staff.append(staff)
                         else:  # B-type weekend
                             for staff in self.staff:
                                 if staff not in d and not _has_day_off(staff, day):
-                                    if staff.weekendType == 'B':
+                                    if staff.weekendtype == 'B':
                                         eligible_staff.append(staff)
 
                         num_needed = 8 - len(d)
