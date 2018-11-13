@@ -10,13 +10,15 @@ var scheduleTable = new Tabulator('#schedule', {
             var day = dayString(i);
 
             title_str = `${i}`;
-            field_str = `${i}`;
+            field_str = `day${i}`;
             col_obj = {
                 title: title_str,
                 field: field_str,
                 align: 'center',
                 bottomCalc: 'count',
                 formatter: cellFormatter,
+                editor: 'select',
+                editorParams : {values: ['7P', '7$P', 'RO', 'ROS', 'EDU', 'VAC']}, 
             };
             if (i%7===0||i%7===6) {
                 col_obj.cssClass = "grey";
