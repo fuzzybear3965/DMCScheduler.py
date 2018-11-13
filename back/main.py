@@ -20,7 +20,7 @@ def main():
         while True:
             try:
                 string_data = await ws.recv()
-            except ws.exceptions.ConnectionClosed:
+            except websockets.exceptions.ConnectionClosed:
                 print("Client closed connection.")
                 break
             json_data = json.loads(string_data)
