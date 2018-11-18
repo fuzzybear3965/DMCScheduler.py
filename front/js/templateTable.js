@@ -43,9 +43,12 @@ function setColumns() {
         col_obj = {
             title: title_str,
             field: field_str,
-            editor: 'select',
-            editorParams : {values: ['7P', '7$P', 'RO', 'ROS', 'EDU', 'VAC']},
-            }
+            editor: 'autocomplete',
+            editorParams : {
+                showListOnEmpty: true,
+                freetext: true,
+                values: ['7P', '7$P', 'RO', 'ROS', 'EDU', 'VAC'],
+            },
         }
         if (i%7===0||i%7===6) {
             col_obj.cssClass = "grey";
